@@ -39,7 +39,6 @@ function mailurl_parse_url($dsn)
         );
     }
 
-    $config['scheme'] = $config['scheme'] ?? $config['path'];
     $allowedSchemes = ['mail', 'sendmail', 'qmail', 'smtp', 'smtps'];
 
     if (!$config['scheme']) {
