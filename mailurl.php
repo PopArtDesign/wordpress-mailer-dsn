@@ -73,7 +73,7 @@ function mailurl_phpmailer_configure($phpmailer, $dsn)
         case 'mail':
             $phpmailer->isMail();
             break;
-        case 'semdmail':
+        case 'sendmail':
             $phpmailer->isSendmail();
             break;
         case 'qmail':
