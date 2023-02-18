@@ -62,6 +62,10 @@ function mailurl_parse_url($dsn)
         );
     }
 
+    if (isset($config['query'])) {
+        \parse_str($config['query'], $config['query']);
+    }
+
     return $config;
 }
 
@@ -117,8 +121,7 @@ function mailurl_phpmailer_configure_options($phpmailer, $config)
         return;
     }
 
-    $options = [];
-    \parse_str($config['query'], $options);
+    $options = $config['query'];
 
     $allowedOptions = \get_object_vars($phpmailer);
     unset($allowedOptions['Mailer']);
