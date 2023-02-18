@@ -61,7 +61,7 @@ function mailurl_parse_dsn($dsn)
 {
     if (false === $config = parse_url($dsn)) {
         throw new \RuntimeException(
-            \sprintf('Mailformed mailer DSN: %s.', $dsn)
+            \sprintf('Mailformed mail URL: %s.', $dsn)
         );
     }
 
@@ -71,7 +71,7 @@ function mailurl_parse_dsn($dsn)
     if (!$config['scheme']) {
         throw new \RuntimeException(
             \sprintf(
-                'Mailer DSN scheme not set: "%s". Allowed values: "%s".',
+                'Mail URL scheme not set: "%s". Allowed values: "%s".',
                 $dsn,
                 implode('", "', $allowedSchemes),
             )
@@ -81,7 +81,7 @@ function mailurl_parse_dsn($dsn)
     if (!in_array($config['scheme'], $allowedSchemes)) {
         throw new \RuntimeException(
             \sprintf(
-                'Invalid mailer DSN scheme: "%s". Allowed values: "%s".',
+                'Invalid mail URL scheme: "%s". Allowed values: "%s".',
                 $config['scheme'],
                 implode('", "', $allowedSchemes),
             )
@@ -130,7 +130,7 @@ function mailurl_phpmailer_configure_options($phpmailer, $config)
         if (!\in_array($key, $allowedOptions)) {
             throw new \RuntimeException(
                 \sprintf(
-                    'Unknown mailer DSN option: "%s". Allowed values: "%s"',
+                    'Unknown mail URL option: "%s". Allowed values: "%s"',
                     $key,
                     implode('", "', $allowedOptions),
                 )
