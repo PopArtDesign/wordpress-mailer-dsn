@@ -1,0 +1,15 @@
+{
+    "name": "voronkovich/wordpress-mail-url",
+    "description": "WordPress plugin to configure wp_mail() via MAIL_URL environment variable.",
+    "homepage": "https://github.com/voronkovich/wordpress-mail-url",
+    "keywords": ["wordpress", "plugin"],
+    "type": "wordpress-muplugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oleg Voronkovich",
+            "email": "oleg-voronkovich@yandex.ru",
+            "homepage": "https://github.com/voronkovich"
+        }
+    ]
+}
