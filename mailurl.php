@@ -19,54 +19,28 @@ add_action('phpmailer_init', 'mailurl_phpmailer_init');
 
 function mailurl_phpmailer_init($phpmailer)
 {
-    $dsn = \mailurl_get_dsn();
+    $dsn = \mailurl_get_url();
 
     if ($dsn) {
         \mailurl_phpmailer_configure($phpmailer, $dsn);
     }
 }
 
-function mailurl_get_dsn()
+function mailurl_get_url()
 {
-    return defined('MAIL_URL') ? MAIL_URL : getenv('MAIL_URL');
+    return \defined('MAIL_URL') ? MAIL_URL : \getenv('MAIL_URL');
 }
 
-function mailurl_phpmailer_configure($phpmailer, $dsn)
+function mailurl_parse_url($dsn)
 {
-    $config = mailurl_parse_dsn($dsn);
-
-    switch ($config['scheme']) {
-        case 'mail':
-            $phpmailer->isMail();
-            break;
-        case 'semdmail':
-            $phpmailer->isSendmail();
-            break;
-        case 'qmail':
-            $phpmailer->isQmail();
-            break;
-        case 'smtp':
-            mailurl_phpmailer_configure_smtp($phpmailer, $config);
-            break;
-    }
-
-    mailurl_phpmailer_configure_options($phpmailer, $config);
-
-    dump($phpmailer);
-
-    return $phpmailer;
-}
-
-function mailurl_parse_dsn($dsn)
-{
-    if (false === $config = parse_url($dsn)) {
+    if (false === $config = \parse_url($dsn)) {
         throw new \RuntimeException(
             \sprintf('Mailformed mail URL: %s.', $dsn)
         );
     }
 
     $config['scheme'] = $config['scheme'] ?? $config['path'];
-    $allowedSchemes = ['mail', 'sendmail', 'qmail', 'smtp'];
+    $allowedSchemes = ['mail', 'sendmail', 'qmail', 'smtp', 'smtps'];
 
     if (!$config['scheme']) {
         throw new \RuntimeException(
@@ -91,12 +65,42 @@ function mailurl_parse_dsn($dsn)
     return $config;
 }
 
+function mailurl_phpmailer_configure($phpmailer, $dsn)
+{
+    $config = mailurl_parse_url($dsn);
+
+    switch ($config['scheme']) {
+        case 'mail':
+            $phpmailer->isMail();
+            break;
+        case 'semdmail':
+            $phpmailer->isSendmail();
+            break;
+        case 'qmail':
+            $phpmailer->isQmail();
+            break;
+        case 'smtp':
+        case 'smtps':
+            \mailurl_phpmailer_configure_smtp($phpmailer, $config);
+            break;
+    }
+
+    \mailurl_phpmailer_configure_options($phpmailer, $config);
+
+    return $phpmailer;
+}
+
 function mailurl_phpmailer_configure_smtp($phpmailer, $config)
 {
     $phpmailer->isSMTP();
+    $isSMTPS = 'smtps' === $config['scheme'];
+
+    if ($isSMTPS) {
+        $phpmailer->SMTPSecure = 'tls';
+    }
 
     $phpmailer->Host = $config['host'] ?? 'localhost';
-    $phpmailer->Port = $config['port'] ?? 25;
+    $phpmailer->Port = $config['port'] ?? ($isSMTPS ? 587 : 25);
 
     if (isset($config['user']) || isset($config['pass'])) {
         $phpmailer->SMTPAuth = true;
