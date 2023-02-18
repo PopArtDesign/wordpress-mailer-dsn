@@ -1,39 +1,39 @@
 <?php
 
 /**
- * Plugin Name: Mail DSN
+ * Plugin Name: Mail URL
  * Plugin URI:  https://github.com/voronkovich
- * Description: Configure wp_mail() via MAILER_DSN environment variable
+ * Description: Configure wp_mail() via MAIL_URL environment variable
  * Version:     0.0.1
  * License:     MIT
- * License URI: https://github.com/voronkovich/wp-mail-dsn/blob/main/LICENSE
+ * License URI: https://github.com/voronkovich/wordpress-mail-url/blob/main/LICENSE
  * Author:      Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  * Author URI:  https://github.com/voronkovich
- * Text Domain: maildsn
+ * Text Domain: mailurl
  * Domain Path: /languages
  */
 
 defined('ABSPATH') || exit;
 
-add_action('phpmailer_init', 'maildsn_phpmailer_init');
+add_action('phpmailer_init', 'mailurl_phpmailer_init');
 
-function maildsn_phpmailer_init($phpmailer)
+function mailurl_phpmailer_init($phpmailer)
 {
-    $dsn = \maildsn_get_dsn();
+    $dsn = \mailurl_get_dsn();
 
     if ($dsn) {
-        \maildsn_phpmailer_configure($phpmailer, $dsn);
+        \mailurl_phpmailer_configure($phpmailer, $dsn);
     }
 }
 
-function maildsn_get_dsn()
+function mailurl_get_dsn()
 {
-    return defined('MAILER_DSN') ? MAILER_DSN : getenv('MAILER_DSN');
+    return defined('MAIL_URL') ? MAIL_URL : getenv('MAIL_URL');
 }
 
-function maildsn_phpmailer_configure($phpmailer, $dsn)
+function mailurl_phpmailer_configure($phpmailer, $dsn)
 {
-    $config = maildsn_parse_dsn($dsn);
+    $config = mailurl_parse_dsn($dsn);
 
     switch ($config['scheme']) {
         case 'mail':
@@ -46,18 +46,18 @@ function maildsn_phpmailer_configure($phpmailer, $dsn)
             $phpmailer->isQmail();
             break;
         case 'smtp':
-            maildsn_phpmailer_configure_smtp($phpmailer, $config);
+            mailurl_phpmailer_configure_smtp($phpmailer, $config);
             break;
     }
 
-    maildsn_phpmailer_configure_options($phpmailer, $config);
+    mailurl_phpmailer_configure_options($phpmailer, $config);
 
     dump($phpmailer);
 
     return $phpmailer;
 }
 
-function maildsn_parse_dsn($dsn)
+function mailurl_parse_dsn($dsn)
 {
     if (false === $config = parse_url($dsn)) {
         throw new \RuntimeException(
@@ -91,7 +91,7 @@ function maildsn_parse_dsn($dsn)
     return $config;
 }
 
-function maildsn_phpmailer_configure_smtp($phpmailer, $config)
+function mailurl_phpmailer_configure_smtp($phpmailer, $config)
 {
     $phpmailer->isSMTP();
 
@@ -107,7 +107,7 @@ function maildsn_phpmailer_configure_smtp($phpmailer, $config)
     }
 }
 
-function maildsn_phpmailer_configure_options($phpmailer, $config)
+function mailurl_phpmailer_configure_options($phpmailer, $config)
 {
     if (!isset($config['query'])) {
         return;
