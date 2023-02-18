@@ -17,10 +17,10 @@ add_action('phpmailer_init', 'mailurl_phpmailer_init');
 
 function mailurl_phpmailer_init($phpmailer)
 {
-    $dsn = \mailurl_get_url();
+    $url = \mailurl_get_url();
 
-    if ($dsn) {
-        \mailurl_phpmailer_configure($phpmailer, $dsn);
+    if ($url) {
+        \mailurl_phpmailer_configure($phpmailer, $url);
     }
 }
 
@@ -29,11 +29,11 @@ function mailurl_get_url()
     return \defined('MAIL_URL') ? MAIL_URL : \getenv('MAIL_URL');
 }
 
-function mailurl_parse_url($dsn)
+function mailurl_parse_url($url)
 {
-    if (false === $config = \parse_url($dsn)) {
+    if (false === $config = \parse_url($url)) {
         throw new \RuntimeException(
-            \sprintf('Mailformed mail URL: %s.', $dsn)
+            \sprintf('Mailformed mail URL: %s.', $url)
         );
     }
 
@@ -43,8 +43,8 @@ function mailurl_parse_url($dsn)
         throw new \RuntimeException(
             \sprintf(
                 'Mail URL scheme not set: "%s". Allowed values: "%s".',
-                $dsn,
-                implode('", "', $allowedSchemes),
+                $url,
+                \implode('", "', $allowedSchemes),
             )
         );
     }
@@ -54,7 +54,7 @@ function mailurl_parse_url($dsn)
             \sprintf(
                 'Invalid mail URL scheme: "%s". Allowed values: "%s".',
                 $config['scheme'],
-                implode('", "', $allowedSchemes),
+                \implode('", "', $allowedSchemes),
             )
         );
     }
@@ -66,9 +66,9 @@ function mailurl_parse_url($dsn)
     return $config;
 }
 
-function mailurl_phpmailer_configure($phpmailer, $dsn)
+function mailurl_phpmailer_configure($phpmailer, $url)
 {
-    $config = mailurl_parse_url($dsn);
+    $config = \mailurl_parse_url($url);
 
     switch ($config['scheme']) {
         case 'mail':
@@ -136,7 +136,7 @@ function mailurl_phpmailer_configure_options($phpmailer, $config)
                 \sprintf(
                     'Unknown mail URL option: "%s". Allowed values: "%s"',
                     $key,
-                    implode('", "', $allowedOptions),
+                    \implode('", "', $allowedOptions),
                 )
             );
         }
