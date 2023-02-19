@@ -1,5 +1,7 @@
 # WordPress Mail URL 
 
+[![CI](https://github.com/voronkovich/wordpress-mail-url/actions/workflows/ci.yml/badge.svg)](https://github.com/voronkovich/wordpress-mail-url/actions/workflows/ci.yml)
+
 [WordPress](https://wordpress.org/) plugin to configure [wp_mail()](https://developer.wordpress.org/reference/functions/wp_mail/) via `MAIL_URL` environment variable.
 
 ## Installation
