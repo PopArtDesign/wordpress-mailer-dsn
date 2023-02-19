@@ -13,6 +13,8 @@
 
 defined('ABSPATH') || exit;
 
-require __DIR__ . '/functions.php';
+add_action('phpmailer_init', function ($phpmailer) {
+    require_once __DIR__ . '/functions.php';
 
-add_action('phpmailer_init', 'mailurl_phpmailer_init');
+    \mailurl_phpmailer_init($phpmailer);
+});
