@@ -26,18 +26,6 @@ function mailurl_parse_url($url)
         );
     }
 
-    $allowedSchemes = ['mail', 'sendmail', 'qmail', 'smtp', 'smtps'];
-
-    if (!in_array($config['scheme'], $allowedSchemes)) {
-        throw new \RuntimeException(
-            \sprintf(
-                'Invalid mail URL scheme: "%s". Allowed values: "%s".',
-                $config['scheme'],
-                \implode('", "', $allowedSchemes),
-            )
-        );
-    }
-
     if (isset($config['query'])) {
         \parse_str($config['query'], $config['query']);
     }
@@ -63,9 +51,18 @@ function mailurl_phpmailer_configure($phpmailer, $url)
         case 'smtps':
             \mailurl_phpmailer_configure_smtp($phpmailer, $config);
             break;
+        default:
+            throw new \RuntimeException(
+                \sprintf(
+                    'Invalid mail URL scheme: "%s". Allowed values: "mail", "sendmail", "qmail", "smtp", "smtps".',
+                    $config['scheme'],
+                )
+            );
     }
 
-    \mailurl_phpmailer_configure_options($phpmailer, $config);
+    if (isset($config['query'])) {
+        \mailurl_phpmailer_configure_options($phpmailer, $config['query']);
+    }
 
     return $phpmailer;
 }
@@ -91,14 +88,8 @@ function mailurl_phpmailer_configure_smtp($phpmailer, $config)
     }
 }
 
-function mailurl_phpmailer_configure_options($phpmailer, $config)
+function mailurl_phpmailer_configure_options($phpmailer, $options)
 {
-    if (!isset($config['query'])) {
-        return;
-    }
-
-    $options = $config['query'];
-
     $allowedOptions = \get_object_vars($phpmailer);
     unset($allowedOptions['Mailer']);
     unset($allowedOptions['SMTPAuth']);
