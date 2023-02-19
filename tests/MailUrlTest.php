@@ -11,6 +11,9 @@ define('ABSPATH', \dirname(__DIR__));
 
 require_once \dirname(__DIR__) . '/functions.php';
 
+/**
+ * @coversNothing
+ */
 class MailUrlTest extends TestCase
 {
     public function testThrowsExceptionIfUrlIsMailformed()
