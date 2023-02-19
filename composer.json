@@ -11,5 +11,8 @@
             "email": "oleg-voronkovich@yandex.ru",
             "homepage": "https://github.com/voronkovich"
         }
-    ]
+    ],
+    "require-dev": {
+        "phpmailer/phpmailer": "^6.7"
+    }
 }
