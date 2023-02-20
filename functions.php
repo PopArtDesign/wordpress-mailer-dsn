@@ -91,6 +91,7 @@ function mailurl_phpmailer_configure_smtp($phpmailer, $config)
 function mailurl_phpmailer_configure_options($phpmailer, $options)
 {
     $allowedOptions = \get_object_vars($phpmailer);
+
     unset($allowedOptions['Mailer']);
     unset($allowedOptions['SMTPAuth']);
     unset($allowedOptions['Username']);
@@ -98,6 +99,7 @@ function mailurl_phpmailer_configure_options($phpmailer, $options)
     unset($allowedOptions['Hostname']);
     unset($allowedOptions['Port']);
     unset($allowedOptions['ErrorInfo']);
+
     $allowedOptions = \array_keys($allowedOptions);
 
     foreach ($options as $key => $value) {
@@ -106,26 +108,29 @@ function mailurl_phpmailer_configure_options($phpmailer, $options)
                 \sprintf(
                     'Unknown mail URL option: "%s". Allowed values: "%s"',
                     $key,
-                    \implode('", "', $allowedOptions),
+                    \implode('", "', $allowedOptions)
                 )
             );
         }
 
-        if ('true' === $value) {
-            $phpmailer->$key = true;
-            continue;
+        switch ($key) {
+            case 'AllowEmpty':
+            case 'SMTPAutoTLS':
+            case 'SMTPKeepAlive':
+            case 'SingleTo':
+            case 'UseSendmailOptions':
+            case 'do_verp':
+            case 'DKIM_copyHeaderFields':
+                $phpmailer->$key = (bool) $value;
+                break;
+            case 'Priority':
+            case 'SMTPDebug':
+            case 'WordWrap':
+                $phpmailer->$key = (integer) $value;
+                break;
+            default:
+                $phpmailer->$key = $value;
+                break;
         }
-
-        if ('false' === $value) {
-            $phpmailer->$key = false;
-            continue;
-        }
-
-        if (\is_numeric($value)) {
-            $phpmailer->$key = (integer) $value;
-            continue;
-        }
-
-        $phpmailer->$key = $value;
     }
 }
