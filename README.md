@@ -1,22 +1,22 @@
-# WordPress Mail URL 
+# WordPress Mailer DSN 
 
-[![CI](https://github.com/voronkovich/wordpress-mail-url/actions/workflows/ci.yml/badge.svg)](https://github.com/voronkovich/wordpress-mail-url/actions/workflows/ci.yml)
+[![CI](https://github.com/voronkovich/wordpress-mailer-dsn/actions/workflows/ci.yml/badge.svg)](https://github.com/voronkovich/wordpress-mailer-dsn/actions/workflows/ci.yml)
 
-[WordPress](https://wordpress.org/) plugin to configure [wp_mail()](https://developer.wordpress.org/reference/functions/wp_mail/) via `MAIL_URL` environment variable.
+[WordPress](https://wordpress.org/) plugin to configure [wp_mail()](https://developer.wordpress.org/reference/functions/wp_mail/) via `MAILER_DSN` environment variable.
 
 ## Installation
 
 Use the [Composer](https://getcomposer.org/):
 
 ```sh
-composer require voronkovich/wordpress-mail-url
+composer require voronkovich/wordpress-mailer-dsn
 ```
 
 Don't forget to activate the plugin, if you don't use the `mu-plugins` directory.
 
-Define (in your `.env` file for example) the `MAIL_URL` variable like this:
+Define (in your `.env` file for example) the `MAILER_DSN` variable like this:
 ```sh
-MAIL_URL='mail://localhost'
+MAILER_DSN='mail://localhost'
 ```
 
 ## Configuraton
@@ -32,7 +32,7 @@ Supported protocols:
 Additional configuration could be applied via query string:
 
 ```sh
-MAIL_URL='mail://localhost?XMailer=SuperMailer&FromName=CoolSite'
+MAILER_DSN='mail://localhost?XMailer=SuperMailer&FromName=CoolSite'
 ```
 
 [PHPMailer](https://github.com/PHPMailer/PHPMailer) configured by public properties, so you can use any of them. All allowed options could be found at [PHPMailer Docs](https://phpmailer.github.io/PHPMailer/classes/PHPMailer-PHPMailer-PHPMailer.html#toc-properties).
@@ -41,17 +41,17 @@ MAIL_URL='mail://localhost?XMailer=SuperMailer&FromName=CoolSite'
 
 ### Sendmail
 ```sh
-MAIL_URL='sendmail://localhost?Sendmail=/usr/sbin/sendmail%20-oi%20-t'
+MAILER_DSN='sendmail://localhost?Sendmail=/usr/sbin/sendmail%20-oi%20-t'
 ```
 
 ### SMTP
 ```sh
-MAIL_URL='smtp://user@password@localhost?SMTPDebug=3&Timeout=1000'
+MAILER_DSN='smtp://user@password@localhost?SMTPDebug=3&Timeout=1000'
 ```
 
 ### Gmail
 ```sh
-MAIL_URL='smtps://user@gmail.com:password@smtp.gmail.com?SMTPDebug=3'
+MAILER_DSN='smtps://user@gmail.com:password@smtp.gmail.com?SMTPDebug=3'
 ```
 
 ## License

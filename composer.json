@@ -1,7 +1,7 @@
 {
-    "name": "voronkovich/wordpress-mail-url",
-    "description": "WordPress plugin to configure wp_mail() via MAIL_URL environment variable.",
-    "homepage": "https://github.com/voronkovich/wordpress-mail-url",
+    "name": "voronkovich/wordpress-mailer-dsn",
+    "description": "WordPress plugin to configure wp_mail() via MAILER_DSN environment variable.",
+    "homepage": "https://github.com/voronkovich/wordpress-mailer-dsn",
     "keywords": ["wordpress", "plugin"],
     "type": "wordpress-muplugin",
     "license": "MIT",

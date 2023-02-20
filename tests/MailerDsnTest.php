@@ -14,51 +14,51 @@ require_once \dirname(__DIR__) . '/functions.php';
 /**
  * @coversNothing
  */
-class MailUrlTest extends TestCase
+class MailerDsnTest extends TestCase
 {
-    public function testThrowsExceptionIfUrlIsMailformed()
+    public function testThrowsExceptionIfDsnIsMailformed()
     {
-        \putenv('MAIL_URL=localhost');
+        \putenv('MAILER_DSN=localhost');
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Mailformed mail URL: "localhost".');
 
         $phpmailer = new PHPMailer(true);
 
-        \mailurl_phpmailer_init($phpmailer);
+        \mailerdsn_phpmailer_init($phpmailer);
     }
 
-    public function testThrowsExceptionIfUrHasInvalidScheme()
+    public function testThrowsExceptionIfDsnHasInvalidScheme()
     {
-        \putenv('MAIL_URL=ftp://localhost');
+        \putenv('MAILER_DSN=ftp://localhost');
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Invalid mail URL scheme: "ftp"');
 
         $phpmailer = new PHPMailer(true);
 
-        \mailurl_phpmailer_init($phpmailer);
+        \mailerdsn_phpmailer_init($phpmailer);
     }
 
-    public function testThrowsExceptionIfUrHasInvalidOption()
+    public function testThrowsExceptionIfDsnHasInvalidOption()
     {
-        \putenv('MAIL_URL=mail://localhost?Helo=Hi&Unknown=Invalid');
+        \putenv('MAILER_DSN=mail://localhost?Helo=Hi&Unknown=Invalid');
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Unknown mail URL option: "Unknown"');
 
         $phpmailer = new PHPMailer(true);
 
-        \mailurl_phpmailer_init($phpmailer);
+        \mailerdsn_phpmailer_init($phpmailer);
     }
 
-    public function testConfiguresPHPMailerWithProvidedByUrlSettings()
+    public function testConfiguresPHPMailerWithProvidedByDsnSettings()
     {
-        \putenv('MAIL_URL=smtps://user@gmail.com:password@smtp.gmail.com?SMTPDebug=3&Timeout=60');
+        \putenv('MAILER_DSN=smtps://user@gmail.com:password@smtp.gmail.com?SMTPDebug=3&Timeout=60');
 
         $phpmailer = new PHPMailer(true);
 
-        \mailurl_phpmailer_init($phpmailer);
+        \mailerdsn_phpmailer_init($phpmailer);
 
         $this->assertEquals($phpmailer->Mailer, 'smtp');
         $this->assertEquals($phpmailer->Host, 'smtp.gmail.com');

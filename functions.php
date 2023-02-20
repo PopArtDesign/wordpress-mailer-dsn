@@ -2,21 +2,21 @@
 
 defined('ABSPATH') || exit;
 
-function mailurl_phpmailer_init($phpmailer)
+function mailerdsn_phpmailer_init($phpmailer)
 {
-    $url = \mailurl_get_url();
+    $url = \mailerdsn_get_dsn();
 
     if ($url) {
-        \mailurl_phpmailer_configure($phpmailer, $url);
+        \mailerdsn_phpmailer_configure($phpmailer, $url);
     }
 }
 
-function mailurl_get_url()
+function mailerdsn_get_dsn()
 {
-    return \defined('MAIL_URL') ? MAIL_URL : \getenv('MAIL_URL');
+    return \defined('MAILER_DSN') ? MAILER_DSN : \getenv('MAILER_DSN');
 }
 
-function mailurl_parse_url($url)
+function mailerdsn_parse_url($url)
 {
     $config = \parse_url($url);
 
@@ -33,9 +33,9 @@ function mailurl_parse_url($url)
     return $config;
 }
 
-function mailurl_phpmailer_configure($phpmailer, $url)
+function mailerdsn_phpmailer_configure($phpmailer, $url)
 {
-    $config = \mailurl_parse_url($url);
+    $config = \mailerdsn_parse_url($url);
 
     switch ($config['scheme']) {
         case 'mail':
@@ -49,7 +49,7 @@ function mailurl_phpmailer_configure($phpmailer, $url)
             break;
         case 'smtp':
         case 'smtps':
-            \mailurl_phpmailer_configure_smtp($phpmailer, $config);
+            \mailerdsn_phpmailer_configure_smtp($phpmailer, $config);
             break;
         default:
             throw new \RuntimeException(
@@ -61,13 +61,13 @@ function mailurl_phpmailer_configure($phpmailer, $url)
     }
 
     if (isset($config['query'])) {
-        \mailurl_phpmailer_configure_options($phpmailer, $config['query']);
+        \mailerdsn_phpmailer_configure_options($phpmailer, $config['query']);
     }
 
     return $phpmailer;
 }
 
-function mailurl_phpmailer_configure_smtp($phpmailer, $config)
+function mailerdsn_phpmailer_configure_smtp($phpmailer, $config)
 {
     $phpmailer->isSMTP();
     $isSMTPS = 'smtps' === $config['scheme'];
@@ -88,7 +88,7 @@ function mailurl_phpmailer_configure_smtp($phpmailer, $config)
     }
 }
 
-function mailurl_phpmailer_configure_options($phpmailer, $options)
+function mailerdsn_phpmailer_configure_options($phpmailer, $options)
 {
     $allowedOptions = \get_object_vars($phpmailer);
 
