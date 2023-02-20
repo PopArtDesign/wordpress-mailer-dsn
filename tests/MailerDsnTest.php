@@ -21,7 +21,7 @@ class MailerDsnTest extends TestCase
         \putenv('MAILER_DSN=localhost');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Mailformed mail URL: "localhost".');
+        $this->expectExceptionMessage('Mailformed mail DSN: "localhost".');
 
         $phpmailer = new PHPMailer(true);
 
@@ -33,7 +33,7 @@ class MailerDsnTest extends TestCase
         \putenv('MAILER_DSN=ftp://localhost');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Invalid mail URL scheme: "ftp"');
+        $this->expectExceptionMessage('Invalid mail DSN scheme: "ftp"');
 
         $phpmailer = new PHPMailer(true);
 
@@ -45,7 +45,7 @@ class MailerDsnTest extends TestCase
         \putenv('MAILER_DSN=mail://localhost?Helo=Hi&Unknown=Invalid');
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Unknown mail URL option: "Unknown"');
+        $this->expectExceptionMessage('Unknown mail DSN option: "Unknown"');
 
         $phpmailer = new PHPMailer(true);
 

@@ -22,7 +22,7 @@ function mailerdsn_parse_url($url)
 
     if (false === $config || !isset($config['scheme']) || !isset($config['host'])) {
         throw new \RuntimeException(
-            \sprintf('Mailformed mail URL: "%s".', $url)
+            \sprintf('Mailformed mail DSN: "%s".', $url)
         );
     }
 
@@ -54,7 +54,7 @@ function mailerdsn_phpmailer_configure($phpmailer, $url)
         default:
             throw new \RuntimeException(
                 \sprintf(
-                    'Invalid mail URL scheme: "%s". Allowed values: "mail", "sendmail", "qmail", "smtp", "smtps".',
+                    'Invalid mail DSN scheme: "%s". Allowed values: "mail", "sendmail", "qmail", "smtp", "smtps".',
                     $config['scheme'],
                 )
             );
@@ -106,7 +106,7 @@ function mailerdsn_phpmailer_configure_options($phpmailer, $options)
         if (!\in_array($key, $allowedOptions)) {
             throw new \RuntimeException(
                 \sprintf(
-                    'Unknown mail URL option: "%s". Allowed values: "%s"',
+                    'Unknown mail DSN option: "%s". Allowed values: "%s"',
                     $key,
                     \implode('", "', $allowedOptions)
                 )
