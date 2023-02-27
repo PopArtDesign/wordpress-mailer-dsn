@@ -12,7 +12,7 @@
             "homepage": "https://github.com/voronkovich"
         }
     ],
-    "require-dev": {
-        "phpmailer/phpmailer": "^6.7"
+    "require": {
+        "voronkovich/phpmailer-dsn": "^0.0.1"
     }
 }

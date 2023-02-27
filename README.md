@@ -1,7 +1,5 @@
 # WordPress Mailer DSN 
 
-[![CI](https://github.com/voronkovich/wordpress-mailer-dsn/actions/workflows/ci.yml/badge.svg)](https://github.com/voronkovich/wordpress-mailer-dsn/actions/workflows/ci.yml)
-
 [WordPress](https://wordpress.org/) plugin to configure [wp_mail()](https://developer.wordpress.org/reference/functions/wp_mail/) via `MAILER_DSN` environment variable.
 
 ## Installation
