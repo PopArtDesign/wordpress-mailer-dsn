@@ -4,7 +4,7 @@
  * Plugin Name: Mailer DSN
  * Plugin URI:  https://github.com/voronkovich/wordpress-mailer-dsn
  * Description: Configure wp_mail() via MAILER_DSN environment variable
- * Version:     0.0.5
+ * Version:     0.0.6
  * License:     MIT
  * License URI: https://github.com/voronkovich/wordpress-mailer-dsn/blob/main/LICENSE
  * Author:      Oleg Voronkovich <oleg-voronkovich@yandex.ru>
@@ -13,7 +13,7 @@
 
 defined('ABSPATH') || exit;
 
-use Voronkovich\PHPMailerDSN\DSNConfigurator;
+use PHPMailer\PHPMailer\DSNConfigurator;
 
 add_action('phpmailer_init', function ($phpmailer) {
     static $configurator = null;
