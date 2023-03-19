@@ -1,4 +1,4 @@
-# WordPress Mailer DSN 
+# WordPress Mailer DSN (Data Source Name)
 
 [WordPress](https://wordpress.org/) plugin to configure [wp_mail()](https://developer.wordpress.org/reference/functions/wp_mail/) via `MAILER_DSN` environment variable.
 
