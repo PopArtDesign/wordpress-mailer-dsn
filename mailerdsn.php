@@ -2,11 +2,11 @@
 
 /**
  * Plugin Name: Mailer DSN
- * Plugin URI:  https://github.com/voronkovich/wordpress-mailer-dsn
+ * Plugin URI:  https://github.com/PopArtDesign/wordpress-mailer-dsn
  * Description: Configure wp_mail() via MAILER_DSN environment variable
- * Version:     0.0.6
+ * Version:     0.0.7
  * License:     MIT
- * License URI: https://github.com/voronkovich/wordpress-mailer-dsn/blob/main/LICENSE
+ * License URI: https://github.com/PopArtDesign/wordpress-mailer-dsn/blob/main/LICENSE
  * Author:      Oleg Voronkovich <oleg-voronkovich@yandex.ru>
  * Author URI:  https://github.com/voronkovich
  */

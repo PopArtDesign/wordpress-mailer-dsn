@@ -1,8 +1,8 @@
 {
-    "name": "voronkovich/wordpress-mailer-dsn",
+    "name": "popartdesign/wordpress-mailer-dsn",
     "description": "WordPress plugin to configure wp_mail() via MAILER_DSN environment variable.",
-    "homepage": "https://github.com/voronkovich/wordpress-mailer-dsn",
-    "keywords": ["wordpress", "plugin"],
+    "homepage": "https://github.com/PopArtDesign/wordpress-mailer-dsn",
+    "keywords": ["wordpress", "plugin", "phpmailer"],
     "type": "wordpress-muplugin",
     "license": "MIT",
     "authors": [
