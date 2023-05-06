@@ -7,7 +7,7 @@
 Use the [Composer](https://getcomposer.org/):
 
 ```sh
-composer require voronkovich/wordpress-mailer-dsn
+composer require popartdesign/wordpress-mailer-dsn
 ```
 
 Don't forget to activate the plugin, if you don't use the `mu-plugins` directory.
@@ -49,7 +49,7 @@ MAILER_DSN='smtp://user@password@localhost?SMTPDebug=3&Timeout=1000'
 
 ### Gmail
 ```sh
-MAILER_DSN='smtps://user@gmail.com:password@smtp.gmail.com?SMTPDebug=3'
+MAILER_DSN='smtps://user@gmail.com:password@smtp.gmail.com:587'
 ```
 
 ## License
