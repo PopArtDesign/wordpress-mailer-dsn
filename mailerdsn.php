@@ -3,8 +3,8 @@
 /**
  * Plugin Name: Mailer DSN
  * Plugin URI:  https://github.com/PopArtDesign/wordpress-mailer-dsn
- * Description: Configure wp_mail() via MAILER_DSN environment variable
- * Version:     0.0.7
+ * Description: Configure wp_mail() via environment variables (e.g. MAILER_DSN)
+ * Version:     0.0.8
  * License:     MIT
  * License URI: https://github.com/PopArtDesign/wordpress-mailer-dsn/blob/main/LICENSE
  * Author:      Oleg Voronkovich <oleg-voronkovich@yandex.ru>
@@ -13,16 +13,12 @@
 
 defined('ABSPATH') || exit;
 
-use PHPMailer\PHPMailer\DSNConfigurator;
+use PopArtDesign\WordPressMailerDSN\PHPMailerConfigurator;
 
-add_action('phpmailer_init', function ($phpmailer) {
+add_action('phpmailer_init', function ($mailer) {
     static $configurator = null;
 
-    if (!$dsn = defined('MAILER_DSN') ? MAILER_DSN : getenv('MAILER_DSN')) {
-        return;
-    }
+    $configurator = $configurator ?? new PHPMailerConfigurator();
 
-    $configurator = $configurator ?? new DSNConfigurator();
-
-    $configurator->configure($phpmailer, $dsn);
+    $configurator->configure($mailer);
 });

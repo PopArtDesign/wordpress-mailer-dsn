@@ -14,5 +14,15 @@
     ],
     "require": {
         "phpmailer/phpmailer": "^6.8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PopArtDesign\\WordPressMailerDSN\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PopArtDesign\\WordPressMailerDSN\\Tests\\": "tests/"
+        }
     }
 }
