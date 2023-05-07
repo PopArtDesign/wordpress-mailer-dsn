@@ -46,6 +46,19 @@ class PHPMailerConfiguratorTest extends TestCase
         $this->assertEquals('/usr/sbin/sendmail -oi -t', $mailer->Sendmail);
     }
 
+    public function testGivesPreferenceToEnvsOverConstants()
+    {
+        $configurator = new PHPMailerConfigurator();
+        $mailer = new PHPMailer();
+
+        putenv('MAILER_DSN=smtps://pop:art@popartdesign.ru:587?SMTPDebug=3&Timeout=1000');
+        define('MAILER_DSN', 'sendmail://localhost?Sendmail=/usr/sbin/sendmail%20-oi%20-t');
+
+        $configurator->configure($mailer);
+
+        $this->assertEquals('smtp', $mailer->Mailer);
+    }
+
     public function testConfiguresDebugUsingEnvs()
     {
         $configurator = new PHPMailerConfigurator();
@@ -94,6 +107,24 @@ class PHPMailerConfiguratorTest extends TestCase
         $this->assertEquals('private', $mailer->DKIM_private_string);
         $this->assertEquals('secret', $mailer->DKIM_passphrase);
         $this->assertEquals('mailer', $mailer->DKIM_selector);
+        $this->assertEquals('no-reply@popartdesign.ru', $mailer->DKIM_identity);
+        $this->assertEquals('popartdesign.ru', $mailer->DKIM_domain);
+    }
+
+    public function testConfiguresDkimDomainAndIdentityWithDefaultValues()
+    {
+        $configurator = new PHPMailerConfigurator();
+        $mailer = new PHPMailer();
+
+        $mailer->From = 'no-reply@popartdesign.ru';
+
+        putenv('MAILER_DKIM_PRIVATE=/tmp/private.key');
+        putenv('MAILER_DKIM_PRIVATE_STRING=private');
+        putenv('MAILER_DKIM_PASSPHRASE=secret');
+        putenv('MAILER_DKIM_SELECTOR=mailer');
+
+        $configurator->configure($mailer);
+
         $this->assertEquals('no-reply@popartdesign.ru', $mailer->DKIM_identity);
         $this->assertEquals('popartdesign.ru', $mailer->DKIM_domain);
     }
