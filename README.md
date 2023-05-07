@@ -54,6 +54,24 @@ MAILER_DSN='smtp://user@password@localhost?SMTPDebug=3&Timeout=1000'
 MAILER_DSN='smtps://user@gmail.com:password@smtp.gmail.com:587'
 ```
 
+## Advanced
+
+Sometimes it's not convinient to configure all options by the only one `MAILER_DSN` variable. For example, if you want to configure [DKIM](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail), you will end with very long unreadable DSN string. In this cases you can use one of `MAILER_*` variables:
+
+- `MAILER_DEBUG`
+- `MAILER_DEBUG_OUTPUT`
+- `MAILER_FROM`
+- `MAILER_FROM_NAME`
+- `MAILER_SENDER`
+- `MAILER_DKIM_PRIVATE`
+- `MAILER_DKIM_PASSPHRASE`
+- `MAILER_DKIM_SELECTOR`
+- `MAILER_DKIM_IDENTITY`
+- `MAILER_DKIM_DOMAIN`
+- and etc.
+
+See source code for all available vars.
+
 ## License
 
 Copyright (c) Voronkovich Oleg. Distributed under the [MIT](LICENSE).
