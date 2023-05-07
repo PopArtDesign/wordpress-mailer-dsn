@@ -30,6 +30,7 @@ class PHPMailerConfigurator
     public function configure(PHPMailer $mailer): void
     {
         $this->configureDSN($mailer);
+        $this->configureDebug($mailer);
         $this->configureCommon($mailer);
         $this->configureDKIM($mailer);
     }
@@ -41,6 +42,17 @@ class PHPMailerConfigurator
         }
 
         $this->dsnConfigurator->configure($mailer, $dsn);
+    }
+
+    private function configureDebug(PHPMailer $mailer): void
+    {
+        if ($debug = $this->getConfig('MAILER_DEBUG')) {
+            $mailer->SMTPDebug = (int) $debug;
+        }
+
+        if ($debugOutput = $this->getConfig('MAILER_DEBUG_OUTPUT')) {
+            $mailer->Debugoutput = $debugOutput;
+        }
     }
 
     private function configureCommon(PHPMailer $mailer): void

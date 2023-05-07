@@ -46,6 +46,36 @@ class PHPMailerConfiguratorTest extends TestCase
         $this->assertEquals('/usr/sbin/sendmail -oi -t', $mailer->Sendmail);
     }
 
+    public function testConfiguresDebugUsingEnvs()
+    {
+        $configurator = new PHPMailerConfigurator();
+        $mailer = new PHPMailer();
+
+        putenv('MAILER_DEBUG=3');
+        putenv('MAILER_DEBUG_OUTPUT=error_log');
+
+        $configurator->configure($mailer);
+
+        $this->assertEquals(3, $mailer->SMTPDebug);
+        $this->assertEquals('error_log', $mailer->Debugoutput);
+    }
+
+    public function testConfiguresCommonUsingEnvs()
+    {
+        $configurator = new PHPMailerConfigurator();
+        $mailer = new PHPMailer();
+
+        putenv('MAILER_FROM=oleg-voronkovich@yandex.ru');
+        putenv('MAILER_FROM_NAME=Oleg Voronkovich');
+        putenv('MAILER_SENDER=no-reply@popartdesign.ru');
+
+        $configurator->configure($mailer);
+
+        $this->assertEquals('oleg-voronkovich@yandex.ru', $mailer->From);
+        $this->assertEquals('Oleg Voronkovich', $mailer->FromName);
+        $this->assertEquals('no-reply@popartdesign.ru', $mailer->Sender);
+    }
+
     public function testConfiguresDkimUsingEnvs()
     {
         $configurator = new PHPMailerConfigurator();
@@ -66,21 +96,5 @@ class PHPMailerConfiguratorTest extends TestCase
         $this->assertEquals('mailer', $mailer->DKIM_selector);
         $this->assertEquals('no-reply@popartdesign.ru', $mailer->DKIM_identity);
         $this->assertEquals('popartdesign.ru', $mailer->DKIM_domain);
-    }
-
-    public function testConfiguresCommonUsingEnvs()
-    {
-        $configurator = new PHPMailerConfigurator();
-        $mailer = new PHPMailer();
-
-        putenv('MAILER_FROM=oleg-voronkovich@yandex.ru');
-        putenv('MAILER_FROM_NAME=Oleg Voronkovich');
-        putenv('MAILER_SENDER=no-reply@popartdesign.ru');
-
-        $configurator->configure($mailer);
-
-        $this->assertEquals('oleg-voronkovich@yandex.ru', $mailer->From);
-        $this->assertEquals('Oleg Voronkovich', $mailer->FromName);
-        $this->assertEquals('no-reply@popartdesign.ru', $mailer->Sender);
     }
 }
