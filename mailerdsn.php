@@ -7,8 +7,8 @@
  * Version:     0.0.9
  * License:     MIT
  * License URI: https://github.com/PopArtDesign/wordpress-mailer-dsn/blob/main/LICENSE
- * Author:      Oleg Voronkovich <oleg-voronkovich@yandex.ru>
- * Author URI:  https://github.com/voronkovich
+ * Author:      PopArtDesign <info@popartdesign.ru>
+ * Author URI:  https://popartdesign.ru
  */
 
 defined('ABSPATH') || exit;
