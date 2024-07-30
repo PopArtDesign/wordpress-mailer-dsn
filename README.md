@@ -46,7 +46,7 @@ MAILER_DSN='sendmail://localhost?Sendmail=/usr/sbin/sendmail%20-oi%20-t'
 
 ### SMTP
 ```sh
-MAILER_DSN='smtp://user@password@localhost?SMTPDebug=3&Timeout=1000'
+MAILER_DSN='smtp://user:password@localhost?SMTPDebug=3&Timeout=1000'
 ```
 
 ### Gmail
