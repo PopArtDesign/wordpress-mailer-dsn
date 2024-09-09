@@ -7,7 +7,6 @@ namespace PopArtDesign\WordPressMailerDSN;
 use PHPMailer\PHPMailer\DSNConfigurator;
 use PHPMailer\PHPMailer\PHPMailer;
 
-use function add_action;
 use function constant;
 use function defined;
 use function explode;
@@ -92,14 +91,15 @@ class PHPMailerConfigurator
             $mailer->DKIM_identity = $identity;
         }
 
-        if ($domain = $this->getConfig('MAILER_DKIM_DOMAIN', explode('@', $identity)[1] ?? null)) {
+        if ($domain = $this->getConfig('MAILER_DKIM_DOMAIN', explode('@', (string) $identity)[1] ?? null)) {
             $mailer->DKIM_domain = $domain;
         }
     }
 
     private function getConfig(string $key, $default = null)
     {
-        if ($value = getenv($key)) {
+        $value = $_SERVER[$key] ?? $_ENV[$key] ?? getenv($key) !== false ?: null;
+        if ($value !== null) {
             return $value;
         }
 

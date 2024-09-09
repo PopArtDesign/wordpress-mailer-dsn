@@ -8,6 +8,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPUnit\Framework\TestCase;
 use PopArtDesign\WordPressMailerDSN\PHPMailerConfigurator;
 
+
 /**
  * @covers PHPMailerConfigurator
  * @runTestsInSeparateProcesses
@@ -20,7 +21,7 @@ class PHPMailerConfiguratorTest extends TestCase
         $configurator = new PHPMailerConfigurator();
         $mailer = new PHPMailer();
 
-        putenv('MAILER_DSN=smtps://pop:art@popartdesign.ru:587?SMTPDebug=3&Timeout=1000');
+        $_SERVER['MAILER_DSN'] = 'smtps://pop:art@popartdesign.ru:587?SMTPDebug=3&Timeout=1000';
 
         $configurator->configure($mailer);
 
@@ -51,7 +52,7 @@ class PHPMailerConfiguratorTest extends TestCase
         $configurator = new PHPMailerConfigurator();
         $mailer = new PHPMailer();
 
-        putenv('MAILER_DSN=smtps://pop:art@popartdesign.ru:587?SMTPDebug=3&Timeout=1000');
+        $_SERVER['MAILER_DSN'] = 'smtps://pop:art@popartdesign.ru:587?SMTPDebug=3&Timeout=1000';
         define('MAILER_DSN', 'sendmail://localhost?Sendmail=/usr/sbin/sendmail%20-oi%20-t');
 
         $configurator->configure($mailer);
@@ -64,8 +65,8 @@ class PHPMailerConfiguratorTest extends TestCase
         $configurator = new PHPMailerConfigurator();
         $mailer = new PHPMailer();
 
-        putenv('MAILER_DEBUG=3');
-        putenv('MAILER_DEBUG_OUTPUT=error_log');
+        $_SERVER['MAILER_DEBUG'] = 3;
+        $_SERVER['MAILER_DEBUG_OUTPUT'] = 'error_log';
 
         $configurator->configure($mailer);
 
@@ -78,9 +79,9 @@ class PHPMailerConfiguratorTest extends TestCase
         $configurator = new PHPMailerConfigurator();
         $mailer = new PHPMailer();
 
-        putenv('MAILER_FROM=oleg-voronkovich@yandex.ru');
-        putenv('MAILER_FROM_NAME=Oleg Voronkovich');
-        putenv('MAILER_SENDER=no-reply@popartdesign.ru');
+        $_SERVER['MAILER_FROM'] = 'oleg-voronkovich@yandex.ru';
+        $_SERVER['MAILER_FROM_NAME'] = 'Oleg Voronkovich';
+        $_SERVER['MAILER_SENDER'] = 'no-reply@popartdesign.ru';
 
         $configurator->configure($mailer);
 
@@ -94,12 +95,12 @@ class PHPMailerConfiguratorTest extends TestCase
         $configurator = new PHPMailerConfigurator();
         $mailer = new PHPMailer();
 
-        putenv('MAILER_DKIM_PRIVATE=/tmp/private.key');
-        putenv('MAILER_DKIM_PRIVATE_STRING=private');
-        putenv('MAILER_DKIM_PASSPHRASE=secret');
-        putenv('MAILER_DKIM_SELECTOR=mailer');
-        putenv('MAILER_DKIM_DOMAIN=popartdesign.ru');
-        putenv('MAILER_DKIM_IDENTITY=no-reply@popartdesign.ru');
+        $_SERVER['MAILER_DKIM_PRIVATE'] = '/tmp/private.key';
+        $_SERVER['MAILER_DKIM_PRIVATE_STRING'] = 'private';
+        $_SERVER['MAILER_DKIM_PASSPHRASE'] = 'secret';
+        $_SERVER['MAILER_DKIM_SELECTOR'] = 'mailer';
+        $_SERVER['MAILER_DKIM_DOMAIN'] = 'popartdesign.ru';
+        $_SERVER['MAILER_DKIM_IDENTITY'] = 'no-reply@popartdesign.ru';
 
         $configurator->configure($mailer);
 
@@ -118,10 +119,10 @@ class PHPMailerConfiguratorTest extends TestCase
 
         $mailer->From = 'no-reply@popartdesign.ru';
 
-        putenv('MAILER_DKIM_PRIVATE=/tmp/private.key');
-        putenv('MAILER_DKIM_PRIVATE_STRING=private');
-        putenv('MAILER_DKIM_PASSPHRASE=secret');
-        putenv('MAILER_DKIM_SELECTOR=mailer');
+        $_SERVER['MAILER_DKIM_PRIVATE'] = '/tmp/private.key';
+        $_SERVER['MAILER_DKIM_PRIVATE_STRING'] = 'private';
+        $_SERVER['MAILER_DKIM_PASSPHRASE'] = 'secret';
+        $_SERVER['MAILER_DKIM_SELECTOR'] = 'mailer';
 
         $configurator->configure($mailer);
 
