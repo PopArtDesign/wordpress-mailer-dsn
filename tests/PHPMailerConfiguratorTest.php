@@ -8,7 +8,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPUnit\Framework\TestCase;
 use PopArtDesign\WordPressMailerDSN\PHPMailerConfigurator;
 
-
 /**
  * @covers PHPMailerConfigurator
  * @runTestsInSeparateProcesses
@@ -45,19 +44,6 @@ class PHPMailerConfiguratorTest extends TestCase
 
         $this->assertEquals('sendmail', $mailer->Mailer);
         $this->assertEquals('/usr/sbin/sendmail -oi -t', $mailer->Sendmail);
-    }
-
-    public function testGivesPreferenceToEnvsOverConstants()
-    {
-        $configurator = new PHPMailerConfigurator();
-        $mailer = new PHPMailer();
-
-        $_SERVER['MAILER_DSN'] = 'smtps://pop:art@popartdesign.ru:587?SMTPDebug=3&Timeout=1000';
-        define('MAILER_DSN', 'sendmail://localhost?Sendmail=/usr/sbin/sendmail%20-oi%20-t');
-
-        $configurator->configure($mailer);
-
-        $this->assertEquals('smtp', $mailer->Mailer);
     }
 
     public function testConfiguresDebugUsingEnvs()
@@ -128,5 +114,57 @@ class PHPMailerConfiguratorTest extends TestCase
 
         $this->assertEquals('no-reply@popartdesign.ru', $mailer->DKIM_identity);
         $this->assertEquals('popartdesign.ru', $mailer->DKIM_domain);
+    }
+
+    public function testGivesPreferenceToEnvsOverConstants()
+    {
+        $configurator = new PHPMailerConfigurator();
+        $mailer = new PHPMailer();
+
+        $_SERVER['MAILER_DSN'] = 'smtps://pop:art@popartdesign.ru:587?SMTPDebug=3&Timeout=1000';
+        define('MAILER_DSN', 'sendmail://localhost?Sendmail=/usr/sbin/sendmail%20-oi%20-t');
+
+        $configurator->configure($mailer);
+
+        $this->assertEquals('smtp', $mailer->Mailer);
+    }
+
+    public function testGivesPreferenceToServerSuperglobalOverEnvAndGetenv()
+    {
+        $configurator = new PHPMailerConfigurator();
+        $mailer = new PHPMailer();
+
+        $_SERVER['MAILER_DEBUG'] = 1;
+        $_ENV['MAILER_DEBUG'] = 2;
+        putenv('MAILER_DEBUG=3');
+
+        $configurator->configure($mailer);
+
+        $this->assertEquals(1, $mailer->SMTPDebug);
+    }
+
+    public function testUsesEnvSuperglobalIfServerIsNotSet()
+    {
+        $configurator = new PHPMailerConfigurator();
+        $mailer = new PHPMailer();
+
+        $_ENV['MAILER_DEBUG'] = 1;
+        putenv('MAILER_DEBUG=2');
+
+        $configurator->configure($mailer);
+
+        $this->assertEquals(1, $mailer->SMTPDebug);
+    }
+
+    public function testUsesGetenvAsFallback()
+    {
+        $configurator = new PHPMailerConfigurator();
+        $mailer = new PHPMailer();
+
+        putenv('MAILER_DEBUG=1');
+
+        $configurator->configure($mailer);
+
+        $this->assertEquals(1, $mailer->SMTPDebug);
     }
 }
